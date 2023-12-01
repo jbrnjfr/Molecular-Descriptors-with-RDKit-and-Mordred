@@ -41,11 +41,38 @@ print(len(Canon_SMILES))
 # Put the smiles in the dataframe
 dataset['SMILES'] = Canon_SMILES
 print (dataset)
+# Create a list for duplicate smiles
+duplicates_smiles = dataset[dataset['SMILES'].duplicated()]['SMILES'].values
+len(duplicates_smiles)
 
-git merge origin/main
-# resolve any merge conflicts if they exist
-git push origin ma.index(value)
+# Create a list for duplicate smiles
+dataset[dataset['SMILES'].isin(duplicates_smiles)].sort_values(by=['SMILES'])
 
-git merge origin/main --allow-unrelated-histories
-# resolve any merge conflicts if they exist
-git push origin main
+dataset_new = dataset.drop_duplicates(subset=['SMILES'])
+len(dataset_new)
+
+print (dataset_new)
+
+
+#Calculate descriptors using RDkit
+#General molecular descriptors-about 200 molecular descriptors
+
+def RDkit_descriptors(smiles):
+    mols = [Chem.MolFromSmiles(i) for i in smiles] 
+    calc = MoleculeDescriptors.MolecularDescriptorCalculator([x[0] for x in Descriptors._descList])
+    desc_names = calc.GetDescriptorNames()
+    
+    Mol_descriptors =[]
+    for mol in mols:
+        # add hydrogens to molecules
+        mol=Chem.AddHs(mol)
+        # Calculate all 200 descriptors for each molecule
+        descriptors = calc.CalcDescriptors(mol)
+        Mol_descriptors.append(descriptors)
+    return Mol_descriptors,desc_names 
+
+# Function call
+Mol_descriptors,desc_names = RDkit_descriptors(dataset_new['SMILES'])
+
+df_with_200_descriptors = pd.DataFrame(Mol_descriptors,columns=desc_names)
+print(df_with_200_descriptors)
