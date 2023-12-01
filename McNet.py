@@ -76,3 +76,6 @@ Mol_descriptors,desc_names = RDkit_descriptors(dataset_new['SMILES'])
 
 df_with_200_descriptors = pd.DataFrame(Mol_descriptors,columns=desc_names)
 print(df_with_200_descriptors)
+
+Morgan_fpts = morgan_fpts(dataset_new['SMILES'])
+print(Morgan_fpts.shape)
