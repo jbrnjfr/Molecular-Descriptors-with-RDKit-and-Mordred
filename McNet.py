@@ -79,3 +79,21 @@ print(df_with_200_descriptors)
 
 Morgan_fpts = morgan_fpts(dataset_new['SMILES'])
 print(Morgan_fpts.shape)
+Morgan_fingerprints = pd.DataFrame(Morgan_fpts,columns=['Col_{}'.format(i) for i in range(Morgan_fpts.shape[1])])
+print(Morgan_fingerprints.head())
+
+
+#Calculate descreptors using Mordred-1826 descriptors
+def All_Mordred_descriptors(data):
+    calc = Calculator(descriptors, ignore_3D=False)
+    mols = [Chem.MolFromSmiles(smi) for smi in data]
+    
+    # pandas df
+    df = calc.pandas(mols)
+    return df
+
+mordred_descriptors = All_Mordred_descriptors(dataset_new['SMILES'])
+
+print(mordred_descriptors.shape)
+
+print(mordred_descriptors)
