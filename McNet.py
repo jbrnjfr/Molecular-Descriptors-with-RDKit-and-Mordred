@@ -41,3 +41,11 @@ print(len(Canon_SMILES))
 # Put the smiles in the dataframe
 dataset['SMILES'] = Canon_SMILES
 print (dataset)
+
+git merge origin/main
+# resolve any merge conflicts if they exist
+git push origin ma.index(value)
+
+git merge origin/main --allow-unrelated-histories
+# resolve any merge conflicts if they exist
+git push origin main
